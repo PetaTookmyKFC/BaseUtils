@@ -5,6 +5,7 @@
 #ifndef BASEUTILS_FORMATTING_H
 #define BASEUTILS_FORMATTING_H
 
+#define COLOURED_TERM true
 
 #define C_Log(cond ,code) if (cond) { code }
 #define DEBUG(code) if (debug) { code }
