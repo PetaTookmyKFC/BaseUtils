@@ -8,7 +8,7 @@
 /***
  * NO_COLOUR = Can the terminal use shell colours (Escape codes)
  * NO_FORMAT = Should the text have icons such as bulletpoints?
- * NO_DEBUG = Removes any the base_util_Debug from executing ( for release )
+ * NO_DEBUG = Removes any the base_util_Debug from executing (for release)
 ***/
 
 namespace base_utils::fmt {
@@ -19,12 +19,6 @@ namespace base_utils::fmt {
 #endif
 
 
-#ifdef NO_DEBUG
-    inline constexpr bool kDebugTerm = false;
-#else
-    inline constexpr bool kDebugTerm = true;
-#endif
-
     // Passes the statement onto the next operator
     template<typename F>
     void log(bool cond, F &&code) {
@@ -33,13 +27,7 @@ namespace base_utils::fmt {
         }
     }
 
-    // Only forwards the statement if kDebugTerm is
-    template<typename F>
-    void Debug(F &&code) {
-        if (kDebugTerm) {
-            std::forward<F>(code);
-        }
-    }
+
 
     // For Compile time decleration (Set the string size at compile time without
     // the need for runtime variable or any memory allocation

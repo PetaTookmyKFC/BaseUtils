@@ -1,9 +1,7 @@
 
 #include <iostream>
-
-#include "../include/BaseUtils/FullFormatting.h"
-#include "../include/BaseUtils/PrefixFormatting.h"
-#include "../include/BaseUtils/SuffixFormatting.h"
+#include <utility>
+#include "../include/BaseUtils/All.h"
 
 using namespace base_utils::fmt;
 
@@ -34,11 +32,27 @@ constexpr inline auto AD = AutoSemi<FG_BRIGHT_RED_CODE, BG_BLACK_CODE>;
 
 // -- End Custom Styles for Testing ---
 
+
+
 int main() {
 
 
     std::cout << "\n ! TESTING FORMATTING ! \n";
 
+    base_utils::fmt::Debug([] {
+        std::cout << "Hello World! from debug" <<std::endl;
+    });
+
+    base_utils::fmt::Debug(std::cout << "Hello World! from singular" << std::endl);
+    base_utils::fmt::Debug( [] {
+        std::cout << "Hello World! from multiple" << std::endl;
+        for (int i = 0; i < 5; i++) {
+            std::cout << "Counting " << i << " items" << std::endl;
+        }
+    } );
+
+    const FixedString a = FixedString("string_example");
+    std::cout << a << std::endl;
     // // std::cout << "\n";
     // std::cout << Bold(BrightCyan("╔══════════════════════════════════════════════════════════╗")) << "\n";
     // std::cout << Bold(BrightCyan("║")) << "  " << BOLD("BaseUtils Formatting Library - Visual Test Suite") << "     " << BOLD(BRIGHT_CYAN("║")) << "\n";

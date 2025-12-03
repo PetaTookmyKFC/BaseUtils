@@ -12,7 +12,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Define the main INTERFACE library target
-add_library(baseutils INTERFACE)
+add_library(baseutils INTERFACE
+        include/BaseUtils/All.h
+)
 
 
 # Set up include directories: Different for build (FetchContent) vs. install
@@ -58,5 +60,7 @@ install(FILES
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/BaseUtils
 )
 
+# Uncomment add_executable and then debug formatting_tests.cpp
+#
 #add_executable(test_app tests/formatting_test.cpp)  # Or a new main.cpp
 #target_link_libraries(test_app PRIVATE BaseUtils::baseutils)
