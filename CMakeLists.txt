@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)  # Minimum for FetchContent_MakeAvailable
+cmake_minimum_required(VERSION 3.20)  # Minimum for FetchContent_MakeAvailable
 
 project(BaseUtils
         VERSION 0.1.0  # Set your version here; bump as needed
@@ -7,7 +7,7 @@ project(BaseUtils
 )
 
 # Global compile features (adjust as needed for your C++ standard)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -21,9 +21,6 @@ target_include_directories(baseutils INTERFACE
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/baseutils> # For installed mode
 )
 
-# Optional: Add compile definitions or other properties
-# target_compile_definitions(baseutils INTERFACE SOME_DEFINE=1)
-
 # Create a namespaced alias for consistent usage (e.g., BaseUtils::baseutils)
 add_library(BaseUtils::baseutils ALIAS baseutils)
 
@@ -34,10 +31,8 @@ install(TARGETS baseutils
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/baseutils
 )
-
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/baseutils)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(EXPORT BaseUtilsTargets
         FILE BaseUtilsTargets.cmake
@@ -63,5 +58,5 @@ install(FILES
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/BaseUtils
 )
 
-add_executable(test_app tests/formatting_test.cpp)  # Or a new main.cpp
-target_link_libraries(test_app PRIVATE BaseUtils::baseutils)
+#add_executable(test_app tests/formatting_test.cpp)  # Or a new main.cpp
+#target_link_libraries(test_app PRIVATE BaseUtils::baseutils)

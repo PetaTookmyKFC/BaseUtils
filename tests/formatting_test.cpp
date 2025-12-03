@@ -1,9 +1,9 @@
 
 #include <iostream>
 
-#include "FullFormatting.h"
-#include "PrefixFormatting.h"
-#include "SuffixFormatting.h"
+#include "../include/BaseUtils/FullFormatting.h"
+#include "../include/BaseUtils/PrefixFormatting.h"
+#include "../include/BaseUtils/SuffixFormatting.h"
 
 using namespace base_utils::fmt;
 
@@ -76,7 +76,7 @@ int main() {
 
     for (int i = 0; i < 5; i++) {
 
-        std::cout << DangerAuto( std::format("Hello World! {}",  i) );
+        std::cout << DangerAuto( "hello world" + std::to_string(i) );
 
     }
 

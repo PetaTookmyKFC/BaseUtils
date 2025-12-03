@@ -7,7 +7,7 @@
 
 #include <cstdint>
 
-#include "./ColouredFormatting.h"
+#include "ColouredFormatting.h"
 
 
 // PrefixedText
