@@ -1,98 +1,67 @@
+cmake_minimum_required(VERSION 3.14)  # Minimum for FetchContent_MakeAvailable
 
+project(BaseUtils
+        VERSION 0.1.0  # Set your version here; bump as needed
+        DESCRIPTION "A simple base utilities library"
+        LANGUAGES CXX
+)
 
-
-cmake_minimum_required(VERSION 3.20)
-project(BaseUtils VERSION 1.0.0 LANGUAGES CXX)
-
-# Set C++20 standard
-set(CMAKE_CXX_STANDARD 20)
+# Global compile features (adjust as needed for your C++ standard)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Library target
-add_library(baseutils INTERFACE include/ColouredFormatting.h
-        include/PrefixFormatting.h
-        include/SuffixFormatting.h
-        include/FullFormatting.h)
+# Define the main INTERFACE library target
+add_library(baseutils INTERFACE)
+
+
+# Set up include directories: Different for build (FetchContent) vs. install
 target_include_directories(baseutils INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/baseutils> # For installed mode
 )
 
-# Make sure formatting.h is in include directory
-target_sources(baseutils INTERFACE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/ColouredFormatting.h>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DOR}/include/FullFormatting.h>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/PrefixFormatting.h>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/SuffixFormatting.h>
-)
+# Optional: Add compile definitions or other properties
+# target_compile_definitions(baseutils INTERFACE SOME_DEFINE=1)
 
-# Option to build tests
-option(BASEUTILS_BUILD_TESTS "Build BaseUtils tests" ON)
+# Create a namespaced alias for consistent usage (e.g., BaseUtils::baseutils)
+add_library(BaseUtils::baseutils ALIAS baseutils)
 
-if(BASEUTILS_BUILD_TESTS)
-    enable_testing()
-
-    # Test executable
-    add_executable(formatting_tests
-            tests/formatting_test.cpp
-    )
-
-    target_link_libraries(formatting_tests PRIVATE baseutils)
-
-    target_include_directories(formatting_tests PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/tests
-    )
-
-    # Add test to CTest
-    add_test(NAME FormattingTests COMMAND formatting_tests)
-
-    # Optional: Add compile definitions for testing different modes
-    # Uncomment to test with NO_COLOUR
-    # target_compile_definitions(formatting_tests PRIVATE NO_COLOUR)
-
-    # Uncomment to test with NO_FORMAT
-    # target_compile_definitions(formatting_tests PRIVATE NO_FORMAT)
-
-    # Uncomment to test with NO_DEBUG
-    # target_compile_definitions(formatting_tests PRIVATE NO_DEBUG)
-endif()
-
-# Installation rules
+# Optional: Installation rules (harmless for FetchContent; enables `find_package` too)
 include(GNUInstallDirs)
-
 install(TARGETS baseutils
-        EXPORT BaseutilsTargets
-        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        EXPORT BaseUtilsTargets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/baseutils
 )
 
-install(FILES include/ColouredFormatting.h
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/baseutils
-)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/baseutils)
 
-install(EXPORT BaseutilsTargets
-        FILE BaseutilsTargets.cmake
+install(EXPORT BaseUtilsTargets
+        FILE BaseUtilsTargets.cmake
         NAMESPACE BaseUtils::
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/BaseUtils
 )
 
-# Create config file
+# Generate and install config files for find_package support
 include(CMakePackageConfigHelpers)
-
 configure_package_config_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/BaseutilsConfig.cmake.in
-        ${CMAKE_CURRENT_BINARY_DIR}/BaseutilsConfig.cmake
+        cmake/BaseUtilsConfig.cmake.in
+        ${CMAKE_CURRENT_BINARY_DIR}/BaseUtilsConfig.cmake
         INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/BaseUtils
 )
-
 write_basic_package_version_file(
-        ${CMAKE_CURRENT_BINARY_DIR}/BaseutilsConfigVersion.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/BaseUtilsConfigVersion.cmake
         VERSION ${PROJECT_VERSION}
         COMPATIBILITY SameMajorVersion
 )
-
 install(FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/BaseutilsConfig.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/BaseutilsConfigVersion.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/BaseUtilsConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/BaseUtilsConfigVersion.cmake
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/BaseUtils
 )
+
+add_executable(test_app tests/formatting_test.cpp)  # Or a new main.cpp
+target_link_libraries(test_app PRIVATE BaseUtils::baseutils)

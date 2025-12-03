@@ -4,7 +4,7 @@
 
 #ifndef BASEUTILS_SUFFIXFORMATTING_H
 #define BASEUTILS_SUFFIXFORMATTING_H
-#include "PrefixFormatting.h"
+#include "./PrefixFormatting.h"
 
 namespace base_utils::fmt {
     // Size of style and Text -- Required to be placed at compile time
