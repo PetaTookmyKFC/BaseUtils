@@ -22,6 +22,9 @@ target_include_directories(baseutils INTERFACE
 # Make sure formatting.h is in include directory
 target_sources(baseutils INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/ColouredFormatting.h>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DOR}/include/FullFormatting.h>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/PrefixFormatting.h>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/SuffixFormatting.h>
 )
 
 # Option to build tests
