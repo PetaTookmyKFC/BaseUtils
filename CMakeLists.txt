@@ -16,6 +16,7 @@ add_library(baseutils INTERFACE
         include/BaseUtils/All.h
         tests/types_test.cpp
         include/BaseUtils/types/SemiDynamicArray.h
+        include/BaseUtils/types/BaseVectors.h
 )
 
 
