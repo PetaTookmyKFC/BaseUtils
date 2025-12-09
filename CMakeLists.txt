@@ -14,6 +14,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Define the main INTERFACE library target
 add_library(baseutils INTERFACE
         include/BaseUtils/All.h
+        tests/types_test.cpp
+        include/BaseUtils/types/SemiDynamicArray.h
 )
 
 
@@ -62,5 +64,5 @@ install(FILES
 
 # Uncomment add_executable and then debug formatting_tests.cpp
 #
-#add_executable(test_app tests/formatting_test.cpp)  # Or a new main.cpp
-#target_link_libraries(test_app PRIVATE BaseUtils::baseutils)
+add_executable(test_app tests/types_test.cpp)  # Or a new main.cpp
+target_link_libraries(test_app PRIVATE BaseUtils::baseutils)

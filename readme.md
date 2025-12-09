@@ -79,3 +79,17 @@ Styles are created using the template `ComPrefix` if a style doesn't exist withi
     inline constexpr auto customstyle = Compose<BOLD_CODE, FG_BRIGHT_GREEN_CODE>();
     
 ```
+
+
+# Dynamic Array
+
+Auto Increments the size of an array when it fills up, Minimum Increment size is 1
+
+- resize ( size_t newSize ) >> 
+Resizes the dropping any data at the end of the array if the array is smaller
+
+- setIncrementSize(size_t incrementSize ) >> Changes the amount it increments when needing resizing. 
+- pushBack( const T& value) >> Add the variable to the end of the array expanding is required
+- size_t size() >> Returns the number of occupied spots in the array
+- size_t CurrentCapacity() >> Returns the maximum size of the array before resizing
+- size_t AvailableSpace () >> Returns the number of slots before needing to resize.
