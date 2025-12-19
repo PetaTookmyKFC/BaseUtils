@@ -54,9 +54,11 @@ namespace base_utils::types {
             if (this->totalSize == this->occupiedSize) {
                 this->resize(this->totalSize + incrementSize);
             }
-            data[this->occupiedSize++] = value;
-            ++occupiedSize;
+            data[this->occupiedSize] = value;
+			this->occupiedSize++;
         }
+
+
         // Implement basic array operations
         T& operator[](size_t index) {
             if (index >= this->occupiedSize) {
@@ -82,7 +84,7 @@ namespace base_utils::types {
             return data;
         }
         auto end() const {
-            return data + totalSize;
+            return data + occupiedSize;
         }
         // Base Array Constants
         size_t size() const { return this->occupiedSize; };
@@ -97,6 +99,59 @@ namespace base_utils::types {
             this->setIncrementSize(incrementSize);
             this->data = new T[this->totalSize];
         };
+		// DEEP COPY
+		SemiDynamicArray(const SemiDynamicArray& other) : totalSize(other.totalSize), incrementSize(other.incrementSize), occupiedSize(other.occupiedSize)
+		{
+		    data = new T[totalSize];
+		    for (size_t i = 0; i < other.occupiedSize; i++) {
+		        data[i] = other.data[i];
+		    }
+		}
+
+        // Copy Assignment Operator DEEP COPY
+        SemiDynamicArray& operator=(const SemiDynamicArray& other)
+		{
+		    if (this != &other)
+		    {
+		        delete[] data;
+		        totalSize = other.totalSize;
+		        occupiedSize = other.occupiedSize;
+		        incrementSize = other.incrementSize;
+		        data = new T[totalSize];
+		        for (size_t i = 0; i < other.occupiedSize; i++)
+		        {
+		            data[i] = other.data[i];
+		        }
+		    }
+		    return *this;
+		}
+
+        // Move Constructor STEAL RESOURCES?
+        SemiDynamicArray(SemiDynamicArray& other) noexcept:
+            data(other.data), totalSize(other.totalSize), occupiedSize(other.occupiedSize), incrementSize(other.incrementSize)
+		{
+		    other.data = nullptr;
+		    other.totalSize = 0;
+		    other.occupiedSize = 0;
+		}
+
+        SemiDynamicArray& operator=(SemiDynamicArray&& other) noexcept
+		{
+		    if (this != &other)
+		    {
+		        delete[] data;
+
+		        data = other.data;
+		        totalSize = other.totalSize;
+		        occupiedSize = other.occupiedSize;
+		        incrementSize = other.incrementSize;
+
+		        other.data = nullptr;
+		        other.totalSize = 0;
+		        other.occupiedSize = 0;
+		    }
+			return *this;
+		}
     };
 }
 
