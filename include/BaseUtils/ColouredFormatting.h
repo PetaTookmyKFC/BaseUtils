@@ -4,7 +4,7 @@
 #include <format>
 #include <string_view>
 #include <utility>
-
+#include <iostream>
 /***
  * NO_COLOUR = Can the terminal use shell colours (Escape codes)
  * NO_FORMAT = Should the text have icons such as bulletpoints?
