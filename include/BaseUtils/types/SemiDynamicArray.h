@@ -13,7 +13,6 @@ namespace base_utils::types {
     template <typename T>
     class SemiDynamicArray {
     private:
-        T* data;
         size_t totalSize;
         size_t occupiedSize;
         size_t incrementSize;
@@ -40,7 +39,10 @@ namespace base_utils::types {
         }
 
     public:
-        // Main Public Controls
+		// Please only use this as readonly to prevent data correction.
+        T* data;
+
+    	// Main Public Controls
         void setIncrementSize(size_t incrementSize) {
             if (incrementSize < 1) {
                 throw std::out_of_range("Increment size must be greater than 0");
@@ -57,7 +59,13 @@ namespace base_utils::types {
             data[this->occupiedSize] = value;
 			this->occupiedSize++;
         }
-
+		// push back multiple elements onto the array
+		template <typename... Vals>
+    	void pushMultiple(Vals&&... values)
+        {
+	        static_assert((std::is_convertible_v<Vals, T>&& ...), "All values must be convertible to stored data");
+			(this->pushBack(std::forward<Vals>(values)), ...);
+        }
 
         // Implement basic array operations
         T& operator[](size_t index) {
@@ -78,13 +86,13 @@ namespace base_utils::types {
             return data;
         }
         auto end() {
-            return data + occupiedSize;
+            return data + this->occupiedSize;
         }
         auto begin() const {
             return data;
         }
         auto end() const {
-            return data + occupiedSize;
+            return data + this->occupiedSize;
         }
         // Base Array Constants
         size_t size() const { return this->occupiedSize; };
