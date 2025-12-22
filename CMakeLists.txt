@@ -66,5 +66,5 @@ install(FILES
 # Uncomment add_executable and then debug formatting_tests.cpp
 #
 
-#add_executable(test_app tests/types_test.cpp)  # Or a new main.cpp
-#target_link_libraries(test_app PRIVATE BaseUtils::baseutils)
+add_executable(test_app tests/types_test.cpp)  # Or a new main.cpp
+target_link_libraries(test_app PRIVATE BaseUtils::baseutils)
