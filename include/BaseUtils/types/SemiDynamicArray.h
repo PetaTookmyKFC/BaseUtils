@@ -39,6 +39,11 @@ namespace base_utils::types {
         }
 
     public:
+		// Add some documents for better handling of types
+		using value_type = T;
+    	using iterator = T*;
+    	using const_iterator = const T*;
+
 		// Please only use this as readonly to prevent data correction.
         T* data;
 
