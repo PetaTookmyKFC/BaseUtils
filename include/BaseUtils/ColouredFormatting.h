@@ -60,7 +60,9 @@ namespace base_utils::fmt {
 
     template<std::size_t N>
     inline std::ostream& operator<<(std::ostream& os, const FixedString<N>& Fixed_text) {
-        os << Fixed_text.c_str();
+        if constexpr (kColouredTerm) {
+            os << Fixed_text.c_str();
+        }
         return os;
     }
 
