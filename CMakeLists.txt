@@ -17,6 +17,9 @@ add_library(baseutils INTERFACE
 #        tests/types_test.cpp
         include/BaseUtils/types/SemiDynamicArray.h
         include/BaseUtils/types/BaseVectors.h
+        include/BaseUtils/types/old_Events.h
+        include/BaseUtils/types/FixedString.h
+        include/BaseUtils/types/Events.h
 )
 
 

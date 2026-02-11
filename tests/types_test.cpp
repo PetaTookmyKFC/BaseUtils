@@ -8,11 +8,38 @@
 #include <vector>
 
 #include "BaseUtils/All.h"
+#include "BaseUtils/types/Events.h"
 
 using namespace base_utils::types;
 
 int main() {
 try {
+    EventDispatcher dispatcher;
+    dispatcher.AddListener<Resize>([](Resize* resize)
+    {
+        char buffer[50];
+        std::sprintf( buffer,"EVENT : { x :%d, y :%d }", resize->newSize.x, resize->newSize.y );
+        std::cout << buffer << std::endl;
+    });
+
+    struct CloseEvent : public Event
+    {
+        CloseEvent(){}
+    };
+
+    dispatcher.AddListener<CloseEvent>([](CloseEvent* close)
+    {
+        std::cout << "System want's to Close !!!" << std::endl;
+    });
+
+
+
+    Resize r({800, 600});
+    dispatcher.Dispatch(&r);
+
+    Resize r2( {1000, 580 });
+    dispatcher.Dispatch(&r2);
+
     // Test 1: Basic construction and pushBack with initial size 0, increment 3
     SemiDynamicArray<int> arr(3);  // Default size 0, increment 3
     std::cout << "Initial size: " << arr.size() << ", Capacity: " << arr.CurrentCapacity() << std::endl;
@@ -62,10 +89,16 @@ try {
     }
     std::cout << std::endl;
 
+    CloseEvent ce;
+    dispatcher.Dispatch(&ce);
+
+
     } catch (const std::exception& e) {
         std::cerr << "Exception: " << e.what() << std::endl;
         return 1;
     }
+
+
     // std::cout << base_utils::fmt::Underline("Attempting MultiThreads !!!") << std::endl;
     //
     // try {
@@ -86,6 +119,8 @@ try {
     //     std::cerr << "Exception: " << e.what() << std::endl;
     //     return 1;
     // }
+
+
 
     return 0;
 }
