@@ -21,14 +21,8 @@ namespace base_utils::types
 
     enum class EventType
     {
-        Unknown,
-        Resize,
-    };
-
-    struct Resize : public Event
-    {
-        Vector2<int> newSize;
-        Resize(Vector2<int> newSize): newSize(newSize) {};
+        Unknown_Event,
+        Example_Vector2_event,
     };
 
     struct EventDispatcher
@@ -56,6 +50,14 @@ namespace base_utils::types
                     cb(ev);
             }
         }
+    };
+    struct Unknown_Event : public Event {};
+
+    struct Example_Vector2_event : public Event
+    {
+    public:
+        Vector2<int> Example_v2_data;
+        Example_Vector2_event(Vector2<int> data) : Example_v2_data(data) {}
     };
 
 }

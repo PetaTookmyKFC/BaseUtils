@@ -15,10 +15,18 @@ using namespace base_utils::types;
 int main() {
 try {
     EventDispatcher dispatcher;
-    dispatcher.AddListener<Resize>([](Resize* resize)
+    dispatcher.AddListener<Unknown_Event>( [] (Unknown_Event* event)
+    {
+        std::cout << "unknown event triggered" << std::endl;
+    });
+
+
+    dispatcher.Dispatch(new Unknown_Event());
+
+    dispatcher.AddListener<Example_Vector2_event>([](Example_Vector2_event* resize)
     {
         char buffer[50];
-        std::sprintf( buffer,"EVENT : { x :%d, y :%d }", resize->newSize.x, resize->newSize.y );
+        std::sprintf( buffer,"EVENT : { x :%d, y :%d }", resize->Example_v2_data.x, resize->Example_v2_data.y );
         std::cout << buffer << std::endl;
     });
 
@@ -34,10 +42,10 @@ try {
 
 
 
-    Resize r({800, 600});
+    Example_Vector2_event r({800, 600});
     dispatcher.Dispatch(&r);
 
-    Resize r2( {1000, 580 });
+    Example_Vector2_event r2( {1000, 580 });
     dispatcher.Dispatch(&r2);
 
     // Test 1: Basic construction and pushBack with initial size 0, increment 3

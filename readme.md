@@ -9,7 +9,7 @@ A zero-overhead, compile-time utility library for C++ focusing on efficient form
 - **[Debug System](#debug-field)**: Compile-time toggleable debug logs using lambdas.
 - **[Semi-Dynamic Array](#semi-dynamic-array)**: A flexible array type with controllable growth.
 - **[Vector Types](#vector-types)**: Simple `Vector2` and `Vector3` structures.
-
+- **[Event Handling](#events)**: A simple event hander for triggering lamda functions.
 ---
 
 ## Formatting
@@ -159,6 +159,44 @@ Simple template structures for 2D and 3D vectors.
 base_utils::types::Vector2<float> pos(10.0f, 20.0f);
 base_utils::types::Vector3<int> color(255, 128, 0);
 ```
+
+## Events
+#### Event Types
+The event type doesn't have any included EventTypes pre-registere execpt for the `Unknown_Event` and `Example_Vector2_Event` event.
+The Enum EventType is just an enum to try and track events easier. `Unknown_Event` returns a blank class as the event object, The `Example_Vector2_Event` just returns a struct with a property of `Example_v2_data` containing a `Vector2<int>`, this was just for an example an for texting.
+
+EventTypes are enums of a struct / class that is used as the event parameter. The Enum is just used for organisation.
+```c++
+
+struct A_Basic_Event_Example : public Event
+{
+    public:
+        std::string Data;
+        A_Basic_Event_Example(std::string data) : Data(data) {}
+};
+
+```
+This creates a basic event class, this is fully customisable as long as it extends `Event` just for the type safety.
+
+### Event Dispacther
+This is the class that is used to register the events and trigger the events. The event is registered by running the `AddListener` function. This function requires a template parameter for the event class that is returned when the event is triggered, but is also used as the ID for the event, meaning that the data type should be saved available to both the creation and execution of the event ( easiest in a const or Event )
+```c++
+// Creating a Dispactcher
+import "BaseUtils/types/Events.h"
+EventDispatcher dispactcher;
+dispatcher.AddListener<A_Basic_Event_Example>( [] ( A_Basic_Event_Example* params)
+{
+    std::cout << "Event Triggered " << params.data << std::endl;
+} ) )
+...
+...
+A_Basic_Event_Example ev(5);
+dispatcher.Dispatch(&ev)
+
+```
+
+
+
 
 ---
 
